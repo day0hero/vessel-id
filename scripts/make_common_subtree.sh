@@ -15,7 +15,7 @@ if [ "$1" = "-h" ]; then
 fi
 
 OS=$(uname -o)
-if [ ${OS} == 'GNU/Linux' ]; then
+if [ -f '/etc/redhat-release' ]; then
   rpm -qa | grep git-subtree 2>&1
   if [ ! $? = 0 ]; then
     echo "you need to install git-subtree"

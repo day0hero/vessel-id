@@ -19,6 +19,23 @@ if [ ${OS} == 'GNU/Linux' ]; then
   rpm -qa | grep git-subtree 2>&1
   if [ ! $? = 0 ]; then
     echo "you need to install git-subtree"
+    echo "would you like to install it now?"
+    select ANS in yes no
+    do
+      case $ANS in
+        yes)
+          sudo dnf install git-subtree -y
+          break
+          ;;
+        no)
+          exit
+          break
+          ;;
+        *)
+          echo "You must enter yes or no"
+          ;;
+      esac
+    done
   fi
 fi
 

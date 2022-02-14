@@ -14,6 +14,14 @@ if [ "$1" = "-h" ]; then
 	exit 1
 fi
 
+OS=$(uname -o)
+if [ ${OS} == 'GNU/Linux' ]; then
+  rpm -qa | grep git-subtree 2>&1
+  if [ ! $? = 0 ]; then
+    echo "you need to install git-subtree"
+  fi
+fi
+
 if [ "$1" ]; then
 	subtree_repo=$1
 else

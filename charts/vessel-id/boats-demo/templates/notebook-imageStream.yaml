@@ -1,0 +1,26 @@
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  annotations:
+    app.openshift.io/vcs-ref: ""
+    app.openshift.io/vcs-uri: https://github.com/redhat-naps-da/boat-demo.git
+    opendatahub.io/notebook-image-desc: Jupyter lab image for boats demo.
+    opendatahub.io/notebook-image-name: Boats demo labe environment
+    opendatahub.io/notebook-image-url: https://github.com/boat-demo/notebook
+  labels:
+    app: boat-demo-notebook-image
+    app.kubernetes.io/component: boat-demo-notebook-image
+    app.kubernetes.io/instance: boat-demo-notebook-image
+    app.kubernetes.io/part-of: boat-demo
+    opendatahub.io/notebook-image: "true"
+  name: boat-demo-notebook-image
+  namespace: boats-demo
+spec:
+  lookupPolicy:
+    local: false
+  tags:
+    - annotations: null
+      from:
+        kind: ImageStreamTag
+        name: boat-demo-notebook-image:latest
+      name: latest

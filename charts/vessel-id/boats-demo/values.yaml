@@ -1,0 +1,28 @@
+namespace: boats-demo
+
+odh:
+  kfdef:
+    name: opendatahub
+  applications:
+    - name: odh-common
+      repoRef:
+        name: manifests
+        path: odh-common
+    - name: jupyterhub
+      repoRef:
+        name: manifests
+        path: jupyterhub/jupyterhub
+      params:
+        name: s3_endpoint_url
+        value: s3.odh.com
+    - name: notebook-images
+      repoRef:
+        name: manifests
+        path: jupyterhub/notebook-images
+      overlays:
+        - additional
+  repos:
+    - name: kf-manifests
+      uri: 'https://github.com/kubeflow/manifests/tarball/v1.2-branch'
+    - name: manifests
+      uri: 'https://github.com/opendatahub-io/odh-manifests/tarball/v1.0.9'

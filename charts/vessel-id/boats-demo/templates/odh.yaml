@@ -1,0 +1,34 @@
+{{- range .Values.odh.applications -}}
+apiVersion: kfdef.apps.kubeflow.org/v1
+kind: KfDef
+metadata:
+  name: {{ $.Values.odh.kfdef.name }}
+  namespace: {{ $.Values.namespace }}
+spec:
+  applications:
+    - kustomizeConfig:
+        repoRef:
+          name: manifests
+          path: odh-common
+      name: odh-common
+    - kustomizeConfig:
+        parameters:
+          - name: s3_endpoint_url
+            value: s3.odh.com
+        repoRef:
+          name: manifests
+          path: jupyterhub/jupyterhub
+      name: jupyterhub
+    - kustomizeConfig:
+        overlays:
+          - additional
+        repoRef:
+          name: manifests
+          path: jupyterhub/notebook-images
+      name: notebook-images
+{{- range .Values.odh.repos }}
+  repos:
+    - name: {{ .name }}
+      uri: {{ .uri }}
+{{- end -}}
+{{- end -}}

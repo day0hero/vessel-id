@@ -1,0 +1,48 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  annotations:
+    app.openshift.io/vcs-ref: ""
+    app.openshift.io/vcs-uri: https://github.com/redhat-naps-da/boat-demo
+  labels:
+    app: s2i-ubi8-py38-opengl
+    app.kubernetes.io/component: s2i-ubi8-py38-opengl
+    app.kubernetes.io/instance: s2i-ubi8-py38-opengl
+  name: s2i-ubi8-py38-opengl
+  namespace: boats-demo
+spec:
+  failedBuildsHistoryLimit: 5
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: s2i-ubi8-py38-opengl:latest
+  postCommit: {}
+  resources: {}
+  runPolicy: Serial
+  source:
+    contextDir: /s2i-ubi8-py38-opengl
+    git:
+      uri: https://github.com/redhat-naps-da/boat-demo
+    type: Git
+  strategy:
+    dockerStrategy:
+      from:
+        kind: ImageStreamTag
+        name: python:3.8-ubi8
+        namespace: openshift
+      dockerfilePath: Dockerfile
+    type: Docker
+  successfulBuildsHistoryLimit: 5
+  triggers:
+  - generic:
+      secretReference:
+        name: s2i-ubi8-py38-opengl-generic-webhook-secret
+    type: Generic
+  - github:
+      secretReference:
+        name: s2i-ubi8-py38-opengl-github-webhook-secret
+    type: GitHub
+  - type: ConfigChange
+status:
+  lastVersion: 1

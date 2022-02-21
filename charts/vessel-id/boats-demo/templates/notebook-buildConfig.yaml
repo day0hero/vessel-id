@@ -14,32 +14,32 @@ metadata:
   name: boat-demo-notebook-image
   namespace: boats-demo
 spec:
-  failedBuildsHistoryLimit: 5
-  nodeSelector: null
+  failedBuildsHistoryLimit: {{ .Values.notebook.failedBuildsHistoryLimit }}
+  nodeSelector: {{ .Values.notebook.build.nodeSelector }}
   output:
     to:
-      kind: ImageStreamTag
-      name: boat-demo-notebook-image:latest
+      kind: {{ .Values.notebook.image.tags.kind }}
+      name: {{ .Values.notebook.image.name }}
   postCommit: {}
   resources: {}
-  runPolicy: Serial
+  runPolicy: {{ .Values.notebook.build.runPolicy }}
   source:
-    contextDir: /notebook
+    contextDir: {{ .Values.notebook.build.source.contextDir }}
     git:
-      uri: https://github.com/redhat-naps-da/boat-demo.git
-    type: Git
+      uri: {{ .Values.notebook.build.source.git.uri }}
+    type: {{ .Values.notebook.build.source.type }}
   strategy:
     dockerStrategy:
-      dockerfilePath: Dockerfile
-    type: Docker
-  successfulBuildsHistoryLimit: 5
+      dockerfilePath: {{ .Values.notebook.build.strategy.dockerStrategy.dockerfilePath }}
+    type: {{ .Values.notebook.build.strategy.type }}
+  successfulBuildsHistoryLimit: {{ .Values.notebook.build.successfulBuildsHistoryLimit }}
   triggers:
   - generic:
       secretReference:
-        name: boat-demo-notebook-image-generic-webhook-secret
-    type: Generic
+        name: {{ .Values.notebook.build.triggers.generic.secretReference.name }}
+    type: {{ .Values.notebook.build.triggers.generic.type }}
   - github:
       secretReference:
-        name: boat-demo-notebook-image-github-webhook-secret
-    type: GitHub
+        name: {{ .Values.notebook.build.triggers.github.secretReference.name }}
+    type: {{ .Values.notebook.build.triggers.github.type }}
   - type: ConfigChange

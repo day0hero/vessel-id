@@ -56,3 +56,11 @@ notebook:
         secretReference:
           name: boat-demo-notebook-image-github-webhook-secret
         type: GitHub
+
+s2iopengl:
+  image:
+    name: s2i-ubi8-py38-opengl
+    lookupPolicy:
+      local: false
+  build:
+    

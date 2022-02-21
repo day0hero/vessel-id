@@ -13,14 +13,14 @@ metadata:
     app.kubernetes.io/instance: boat-demo-notebook-image
     app.kubernetes.io/part-of: boat-demo
     opendatahub.io/notebook-image: "true"
-  name: boat-demo-notebook-image
-  namespace: boats-demo
+  name: {{ .Values.notebook.name }}
+  namespace: {{ .Values.namespace }}
 spec:
   lookupPolicy:
-    local: false
+    local: {{ .Values.notebook.lookupPolicy.local }}
   tags:
     - annotations: null
       from:
-        kind: ImageStreamTag
-        name: boat-demo-notebook-image:latest
+        kind: {{ .Values.notebook.tags.kind }}
+        name: {{ .Values.notebook.tags.name }}
       name: latest

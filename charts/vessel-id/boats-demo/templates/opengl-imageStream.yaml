@@ -8,10 +8,8 @@ metadata:
     app: s2i-ubi8-py38-opengl
     app.kubernetes.io/component: s2i-ubi8-py38-opengl
     app.kubernetes.io/instance: s2i-ubi8-py38-opengl
-  name: s2i-ubi8-py38-opengl
-  namespace: boats-demo
+  name: {{ .Values.s2iopengl.image.name }}
+  namespace: {{ .Values.namespace }}
 spec:
   lookupPolicy:
-    local: false
-status:
-  dockerImageRepository: image-registry.openshift-image-registry.svc:5000/boats-demo/s2i-ubi8-py38-opengl
+    local: {{ .Values.s2iopengl.image.lookupPolicy.local }}

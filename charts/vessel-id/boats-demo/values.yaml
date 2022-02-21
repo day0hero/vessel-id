@@ -62,5 +62,33 @@ s2iopengl:
     name: s2i-ubi8-py38-opengl
     lookupPolicy:
       local: false
+    tags:
+      kind: ImageStreamTag
+      name: s2i-ubi8-py38-opengl:latest
   build:
-    
+    failedBuildsHistoryLimit: 5
+    successfulBuildsHistoryLimit: 5
+    nodeSelector: null
+    runPolicy: Serial
+    source:
+      contextDir: /s2i-ubi8-py38-opengl
+      git:
+        uri: https://github.com/redhat-naps-da/boat-demo
+      type: Git
+    strategy:
+      dockerStrategy:
+        from:
+          kind: ImageStreamTag
+          name: python:3.8-ubi8
+          namespace: openshift
+        dockerfilePath: Dockerfile
+      type: Docker
+    triggers:
+      generic:
+        secretReference:
+          name: s2i-ubi8-py38-opengl-generic-webhook-secret
+        type: Generic
+      github:
+        secretReference:
+          name: s2i-ubi8-py38-opengl-github-webhook-secret
+        type: GitHub

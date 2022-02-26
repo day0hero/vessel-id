@@ -1,0 +1,51 @@
+{{- range .Values.apps }}
+---
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  annotations:
+    app.openshift.io/vcs-ref: ""
+    app.openshift.io/vcs-uri: {{ $.Values.gitURL }}
+  labels:
+    app: {{ .name }}
+    app.kubernetes.io/name: {{ .name }}
+    app.kubernetes.io/component: {{ .name }}
+    app.kubernetes.io/instance: {{ .name }}
+    app.kubernetes.io/part-of: {{ $.Values.pattern.name }}
+{{- if or (eq .name "boat-detect") (eq .name "boat-identify") (eq .name "boat-group") }}
+    app.openshift.io/runtime: {{ .runtime }}
+    app.openshift.io/runtimeVersion: {{ .runtimeVersion }}
+{{- end }}
+  name: {{ .name }}
+  namespace: {{ $.Values.namespace }}
+spec:
+  failedBuildsHistoryLimit: 5
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: {{ .name }}:{{ .imageTag }}
+  postCommit: {}
+  resources: {}
+  runPolicy: Serial
+  source:
+    contextDir: {{ .contextDir }}
+    git:
+      uri: {{ $.Values.gitURL }}
+    type: Git
+  strategy:
+    dockerStrategy:
+      dockerfilePath: Dockerfile
+    type: Docker
+  successfulBuildsHistoryLimit: 5
+  triggers:
+  - generic:
+      secretReference:
+        name: boat-demo-notebook-image-generic-webhook-secret
+    type: Generic
+  - github:
+      secretReference:
+        name: boat-demo-notebook-image-github-webhook-secret
+    type: GitHub
+  - type: ConfigChange
+{{- end }}

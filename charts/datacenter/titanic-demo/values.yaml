@@ -11,9 +11,6 @@ pattern:
 #OpenShift internal registry service address
 internalRegistry: image-registry.openshift-image-registry.svc:5000
 
-#Should the subscription be deployed here
-deployODHOperator: True
-
 #The following are values support the imagestream and buildconfigs for 
 #jupyterhub-notebooks, and opengl s2i (source-to-image)
 jupyterHub:

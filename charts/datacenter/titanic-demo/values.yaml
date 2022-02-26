@@ -31,7 +31,7 @@ apps:
     contextDir: /notebook
     desc: Jupyter lab image for boats demo.
     notebookName: Boats demo lab environment
-    notebookURL: https://github.com/day0hero/boat-demo/notebook
+    notebookURL: https://github.com/day0hero/boat-demo/
     deployment: False
 
   - name: "s2i-ubi8-py38-opengl"

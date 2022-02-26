@@ -41,11 +41,11 @@ spec:
   triggers:
   - generic:
       secretReference:
-        name: boat-demo-notebook-image-generic-webhook-secret
+        name: {{ .name }}-generic-webhook-secret
     type: Generic
   - github:
       secretReference:
-        name: boat-demo-notebook-image-github-webhook-secret
+        name: {{ .name }}-github-webhook-secret
     type: GitHub
   - type: ConfigChange
 {{- end }}

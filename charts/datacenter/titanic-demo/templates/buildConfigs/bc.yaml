@@ -34,9 +34,22 @@ spec:
       uri: {{ $.Values.gitURL }}
     type: Git
   strategy:
-    dockerStrategy:
-      dockerfilePath: Dockerfile
-    type: Docker
+{{- if eq .name "boat-demo-notebook-image" }}
+{{ include "boat-demo.dockerDefault" . | indent 4 }}
+{{- else if eq .name "s2i-ubi8-py38-opengl" }}
+{{ include "boat-demo.dockerIS" . | indent 4 }}
+{{- else }}
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+{{- if or (eq .name "boat-identify") (eq .name "boat-group") }}
+        name: python:3.8-ubi8
+        namespace: openshift
+{{- else }}
+        name: s2i-ubi8-py38-opengl:latest
+{{- end }}
+  type: Source
+{{- end }}
   successfulBuildsHistoryLimit: 5
   triggers:
   - generic:

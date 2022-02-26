@@ -1,5 +1,5 @@
 #Source Code repository 
-gitURL: https://github.com/day0hero/boat-demo.git
+gitURL: https://github.com/day0hero/boat-demo
 
 #Namespace for resource deployment
 namespace: boat-demo

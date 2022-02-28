@@ -5,11 +5,13 @@ global:
     syncPolicy: Automatic
     installPlanApproval: Automatic
 
-site:
+clusterGroup:
   name: datacenter
+  isHubCluster: true
 
   namespaces:
   - open-cluster-management
+  - boat-demo
 
   subscriptions:
   - name: advanced-cluster-management
@@ -19,8 +21,8 @@ site:
 
   - name: opendatahub-operator
     namespace: openshift-operators
+    source: community-operators
     csv: opendatahub-operator.v1.1.2
-    channel: stable
 
   projects:
   - datacenter

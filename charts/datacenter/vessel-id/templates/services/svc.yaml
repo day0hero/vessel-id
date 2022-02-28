@@ -1,0 +1,33 @@
+{{- range .Values.apps }}
+{{- if .deployment }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    app.openshift.io/vcs-ref: ""
+    app.openshift.io/vcs-uri: {{ $.Values.gitURL }}
+  labels:
+    app: {{ .name }}
+    app.kubernetes.io/component: {{ .name }}
+    app.kubernetes.io/instance: {{ .name }}
+    app.kubernetes.io/name: {{ .runtime }}
+    app.kubernetes.io/part-of: {{ $.Values.pattern.name }}
+    app.openshift.io/runtime: {{ .runtime }}
+    app.openshift.io/runtimeVersion: {{ .runtimeVersion }}
+  name: {{ .name }}
+  namespace: {{ $.Values.namespace }}
+spec:
+  clusterIP: null
+  ports:
+  - name: {{ .ports.name }}
+    port: {{ .ports.port }}
+    protocol: {{ .ports.protocol }}
+    targetPort: {{ .ports.targetPort }}
+  selector:
+    app: {{ .name }}
+    deploymentconfig: {{ .name }}
+  sessionAffinity: None
+  type: ClusterIP
+{{- end }}
+{{- end }}

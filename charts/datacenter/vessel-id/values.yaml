@@ -1,0 +1,76 @@
+#Source Code repository 
+gitURL: https://github.com/day0hero/boat-demo
+
+#Namespace for resource deployment
+namespace: boat-demo
+
+#Validated Pattern name
+pattern:
+  name: boat-demo
+
+#OpenShift internal registry service address
+internalRegistry: image-registry.openshift-image-registry.svc:5000
+
+#The following are values support the imagestream and buildconfigs for 
+#jupyterhub-notebooks, and opengl s2i (source-to-image)
+jupyterHub:
+  demoUser: jupyter-user
+  configMaps:
+    - name: "jupyterhub-singleuser-profile"
+    - name: "jupyterhub-singleuser-profile-envs"
+  image:
+    - name: boat-demo-notebook-image
+      tag: latest
+      contextDir: /notebook
+      imageSize: Large
+
+#Values for the microservices that make up boat-demo application
+apps:
+  - name: "boat-demo-notebook-image"
+    imageTag: latest
+    contextDir: /notebook
+    desc: Jupyter lab image for boats demo.
+    notebookName: Boats demo lab environment
+    notebookURL: https://github.com/day0hero/boat-demo/
+    deployment: False
+
+  - name: "s2i-ubi8-py38-opengl"
+    imageTag: latest
+    contextDir: /s2i-ubi8-py38-opengl
+    deployment: False
+
+  - name: "boat-detect"
+    runtime: python
+    runtimeVersion: 3.8-ubi8
+    imageTag: latest
+    contextDir: /detect
+    deployment: True
+    ports:
+      name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+
+  - name: "boat-identify"
+    runtime: python
+    runtimeVersion: 3.8-ubi8
+    imageTag: latest
+    contextDir: /identify
+    deployment: True
+    ports:
+      name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+
+  - name: "boat-group"
+    runtime: python
+    runtimeVersion: 3.8-ubi8
+    imageTag: latest
+    contextDir: /group
+    deployment: True
+    ports:
+      name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080

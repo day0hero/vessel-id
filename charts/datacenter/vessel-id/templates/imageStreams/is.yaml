@@ -1,0 +1,40 @@
+{{- range .Values.apps }}
+---
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  annotations:
+    app.openshift.io/vcs-ref: ""
+    app.openshift.io/vcs-uri: {{ $.Values.gitURL }}
+{{- if eq .name "boat-demo-notebook-image" }}
+    opendatahub.io/notebook-image-desc: {{ .desc }}
+    opendatahub.io/notebook-image-name: {{ .notebookName }}
+    opendatahub.io/notebook-image-url: {{ .notebookURL }}
+{{- end }}
+  labels:
+    app: {{ .name }}
+    app.kubernetes.io/component: {{ .name }}
+    app.kubernetes.io/instance: {{ .name }}
+    app.kubernetes.io/name: {{ .name }}
+    app.kubernetes.io/part-of: {{ $.Values.pattern.name }}
+{{- if or (eq .name "boat-detect") (eq .name "boat-identify") (eq .name "boat-group") }}
+    app.openshift.io/runtime: {{ .runtime }}
+    app.openshift.io/runtimeVersion: {{ .runtimeVersion }}
+{{- end }}
+{{- if eq .name "boat-demo-notebook-image" }}
+    opendatahub.io/notebook-image: "true"
+{{- end }}
+  name: {{ .name }}
+  namespace: {{ $.Values.namespace }}
+spec:
+  lookupPolicy:
+    local: false
+{{- if eq .name "boat-demo-notebook-image" }}
+  tags:
+    - annotations: null
+      from:
+        kind: ImageStreamTag
+        name: {{ .name }}:{{ .imageTag }}
+      name: {{ .imageTag }}
+{{- end }}
+{{- end }}

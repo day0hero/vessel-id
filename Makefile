@@ -1,5 +1,5 @@
 BOOTSTRAP=1
-ARGO_TARGET_NAMESPACE=manuela-ci
+ARGO_TARGET_NAMESPACE=boats-demo
 PATTERN=titanic-demo
 COMPONENT=datacenter
 SECRET_NAME="argocd-env"
@@ -16,7 +16,7 @@ default: show
 install: deploy
 ifeq ($(BOOTSTRAP),1)
 	echo "Bootstrapping the Titanic Demo Pattern"
-	make bootstrap
+	helm install $(NAME) common/install/ $(HELM_OPTS)
 endif
 
 predeploy:
@@ -29,8 +29,6 @@ ifeq ($(BOOTSTRAP),1)
 endif
 
 bootstrap:
-	#./scripts/bootstrap-medical-edge.sh
-	ansible-playbook -e pattern_repo_dir="{{lookup('env','PWD')}}" -e helm_charts_dir="{{lookup('env','PWD')}}/charts/datacenter" ./ansible/site.yml 
 
 test:
 	make -f common/Makefile CHARTS="$(wildcard charts/datacenter/*)" PATTERN_OPTS="-f values-datacenter.yaml" test

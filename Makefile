@@ -1,10 +1,11 @@
 BOOTSTRAP=1
 ARGO_TARGET_NAMESPACE=boats-demo
-PATTERN=titanic-demo
+PATTERN=vessel-id
 COMPONENT=datacenter
 SECRET_NAME="argocd-env"
 TARGET_REPO=$(shell git remote show origin | grep Push | sed -e 's/.*URL://' -e 's%:[a-z].*@%@%' -e 's%:%/%' -e 's%git@%https://%' )
 CHART_OPTS=-f common/examples/values-secret.yaml -f values-global.yaml -f values-datacenter.yaml --set global.targetRevision=main --set global.valuesDirectoryURL="https://github.com/pattern-clone/pattern/raw/main/" --set global.pattern="titanic-demo" --set global.namespace="pattern-namespace"
+NAME=$(shell basename `pwd`)
 
 .PHONY: default
 default: show
@@ -16,7 +17,6 @@ default: show
 install: deploy
 ifeq ($(BOOTSTRAP),1)
 	echo "Bootstrapping the Titanic Demo Pattern"
-	helm install $(NAME) common/install/ $(HELM_OPTS)
 endif
 
 predeploy:

@@ -1,6 +1,10 @@
 global:
+  pattern: vessel-id
   valuesDirectoryURL: https://github.com/dagger-refuse-cool/edge-gitops/raw/main/
   options:
     useCSV: True
     syncPolicy: Manual
     installPlanApproval: Automatic
+
+main:
+  clusterGroupName: datacenter

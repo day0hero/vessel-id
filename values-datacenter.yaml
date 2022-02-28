@@ -39,7 +39,7 @@ site:
   - name: titanic
     namespace: boat-demo
     project: datacenter
-    path: charts/datacenter/titanic-demo/
+    path: charts/datacenter/vessel-id
 
 
 #

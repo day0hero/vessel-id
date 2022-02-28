@@ -10,7 +10,6 @@ site:
 
   namespaces:
   - open-cluster-management
-  - application-ci
 
   subscriptions:
   - name: advanced-cluster-management
@@ -18,8 +17,10 @@ site:
     channel: release-2.3
     csv: advanced-cluster-management.v2.3.2
 
-  - name: openshift-pipelines-operator-rh
-    csv: redhat-openshift-pipelines.v1.5.1
+  - name: opendatahub-operator
+    namespace: openshift-operators
+    csv: opendatahub-operator.v1.1.2
+    channel: stable
 
   projects:
   - datacenter
@@ -35,10 +36,10 @@ site:
       jsonPointers:
       - /spec/loggingCA
 
-  - name: pipelines
-    namespace: application-ci
+  - name: titanic
+    namespace: boat-demo
     project: datacenter
-    path: charts/datacenter/pipelines
+    path: charts/datacenter/titanic-demo/
 
 
 #

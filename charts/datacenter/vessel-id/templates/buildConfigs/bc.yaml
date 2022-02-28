@@ -48,7 +48,7 @@ spec:
 {{- else }}
         name: s2i-ubi8-py38-opengl:latest
 {{- end }}
-  type: Source
+    type: Source
 {{- end }}
   successfulBuildsHistoryLimit: 5
   triggers:

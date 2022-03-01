@@ -1,5 +1,6 @@
 global:
   pattern: vessel-id
+
   options:
     useCSV: False
     syncPolicy: Manual

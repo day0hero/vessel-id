@@ -1,12 +1,16 @@
-global:
-  options:
-    useCSV: False
-    syncPolicy: Automatic
-    installPlanApproval: Automatic
+#global:
+#  options:
+#    useCSV: False
+#    syncPolicy: Automatic
+#    installPlanApproval: Automatic
 
 clusterGroup:
   name: datacenter
   isHubCluster: true
+
+  proposedOptions:
+    manageGitops: True
+    isHubCluster: True
 
   namespaces:
   - open-cluster-management

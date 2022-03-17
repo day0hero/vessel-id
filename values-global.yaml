@@ -3,7 +3,7 @@ global:
 
   options:
     useCSV: False
-    syncPolicy: Manual
+    syncPolicy: Automatic
     installPlanApproval: Automatic
 
 main:
